@@ -1,0 +1,118 @@
+﻿@charset "UTF-8";
+
+/*
+ * (c) 2017 Intellectual Ventures
+ * Global Baseline Styles
+ *
+ * @author psylwester(at)intven(dot)com
+ * @version 2.0.9 2017/01/23
+ * @requires normalize.css (or equivalent)
+ * 
+ * THIS STYLESHEET RESERVED FOR RULES: 
+ * Generic font styling
+ * 
+ * These styles should change very rarely
+ * 
+ */
+
+@import url(//fonts.googleapis.com/css?family=Source+Code+Pro); /* Source+Sans+Pro */
+@import url(//fonts.googleapis.com/css?family=Roboto:400,700);
+@import url(//fonts.googleapis.com/css?family=Roboto+Condensed:400,700);
+
+html,body,.sans
+{
+  font-family: "Roboto", "Calibri", sans-serif;
+  font-weight: 400;
+	font-size: 100%;
+	font-size: unset;
+}
+
+html[data-useragent*="Mac OS"] bodys
+{
+  font-size: 0.95em;
+}
+
+.serif
+{
+  font-family: Cambria, Georgia, Palatino, serif;
+}
+
+pre, .mono
+{
+  font-family: "Source Code Pro", Consolas, Menlo, "Lucida Console", mononspace;
+}
+
+::-webkit-input-placeholder
+{
+  color: #4d8bb8;
+  font-family: "Calibri", "Helvetica Neue", Arial, sans-serif;
+  font-style: italic;
+  font-size: 16px; 
+}
+
+:-moz-placeholder
+{
+  color: #4d8bb8;
+  font-family: "Calibri", "Helvetica Neue", Arial, sans-serif;
+  font-style: italic;
+  font-size: 16px; 
+}
+
+:-ms-input-placeholder
+{
+  color: #4d8bb8;
+  font-family: "Calibri", "Helvetica Neue", Arial, sans-serif !important;
+  font-style: italic;
+  font-size: 16px !important; 
+}
+
+button,
+input,
+optgroup,
+select,
+textarea 
+{
+	/* counteracts normalize 5.x */
+  font-family: "Roboto", "Calibri", sans-serif;
+  font-weight: 400;
+}
+
+@media all and (max-width: 1500px) /* PRODUCTION 720px */
+{
+
+  /* -~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
+ *  SMALL DEVICES MEDIA QUERY
+ *  For this to work, it is essential that 
+ *  all font-size rules be in ems with overrides 
+ *  applied as reluctantly as possible. 
+ * -~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~- */
+
+  html,body,.sans
+  {
+    font-family: "Roboto Condensed", "Calibri", sans-serif;
+    font-weight: 400;
+  }
+	button,
+	input,
+	optgroup,
+	select,
+	textarea 
+	{
+		/* counteracts normalize 5.x */
+		font-family: "Roboto Condensed", "Calibri", sans-serif;
+		font-weight: 400;
+	}
+}
+
+/* Default IE to an intrinsic font to avert "fuzzy" rendering */
+
+html[data-useragent*="Trident"], 
+html[data-useragent*="Trident"] body, 
+html[data-useragent*="Trident"] .sans,
+html[data-useragent*="Trident"] select, 
+html[data-useragent*="Trident"] option, 
+html[data-useragent*="Trident"] input[type="file"] 
+{
+  font-family: "Calibri", sans-serif;
+  font-weight: normal;
+}
