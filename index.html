@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>COMPS</title>
+  <meta name="publisher" content="Institute for Disease Modeling">
+  <meta name="copyright" content="2017">
+  <meta name="language" content="English">
+  <meta name="description" content="To positively influence and direct disease eradication policies and programs through the development, validation, and use of comprehensive modeling and data analysis tools">
+  <meta name="revised" content="2017/02/17">
+  <meta name="viewport" content="width=device-width,user-scalable=yes">
+  <link rel="stylesheet" href="./lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="./css/normalize.css?v=5.0.0">
+  <link rel="stylesheet" href="./css/idm-font.css?v=2.0.9">
+  <link rel="stylesheet" href="./css/idm-global.css?v=2.0.9">
+  <link rel="stylesheet" href="./css/idm-core.css?v=2.0.9">
+  <script src="./lib/jquery/dist/jquery.js?v.3.1.1"></script>
+  <script src="./lib/lodash/dist/lodash.js?v.4.17.4"></script>
+  <script src="./js/index.js"></script>
+  <script src="./js/notifier.js"></script>
+  <style>
+    #tribar {
+      text-align: center;
+    }
+    #tribar > i.fa {
+      font-size: 2em;
+      line-height: 1.5;
+    }
+    #header nav > menu > li > a > i.fa {
+      font-size: 1.7em;
+      width: 1.1em;
+      line-height: 0.7;
+    }
+    #content section#dashboard {
+      display: block;
+    }
+
+    .grid {
+      display: -ms-grid;
+      display: grid;
+      -ms-grid-columns: 1fr 1fr 200px;
+          grid-template-columns: 1fr 1fr 200px;
+      grid-gap: 20px;
+      background-color: #e4e1c0;
+      color: #444;
+      margin: 100px 60px 0 60px;
+    }
+
+    .grid .box {
+      background-color: orange;
+      color: #fff;
+      border-radius: 5px;
+      padding: 20px;
+      font-size: 2em;
+    }
+
+    #content section#dashboard > .truss {
+      padding: 80px 50px;
+      zoom: 150%;
+    }
+
+    fieldset {
+      dislay: block;
+      margin-bottom: 10px;
+    }
+
+    input[type=text] {
+      margin: 0 4px;
+      padding: 10px;
+      vertical-align: middle;
+    }
+
+    input[type=submit] {
+      min-width: 5em;
+    }
+
+    output {
+      margin: 10px;
+      padding: 10px;
+      display: inline-block;
+      color: orangered;
+    }
+
+  </style>
+</head>
+<body class="fullview unready">
+<main role="main" id="main">
+  <header id="header">
+    <aside class="truss"></aside>
+    <div>
+      <nav class="primary">
+        <menu class="local"></menu>
+        <menu class="global unselectable">
+          <li>
+            <a href="#void" class="nav-account" title="account"><span class="ignore">Account</span><i class="fa fa-user-circle" aria-hidden="true"></i><b class="caret">&#9660;</b></a>
+            <menu class="dropdown possessor">
+              <ul class="center force-right">
+                <li><span>Not Signed In!</span></li>
+                <li><a data-action="account">Change Password</a></li>
+                <li><a data-action="session">Sign In</a></li>
+              </ul>
+            </menu>
+          </li>
+        </menu>
+      </nav>
+      <nav class="secondary">
+        <menu><!-- expando items --></menu>
+        <button class="closer" title="close">&#10005;</button>
+      </nav>
+    </div>
+    <div id="minmax" class="omni ignore" title="show/hide toolbar"><span><!--&#9715;--></span></div>
+    <div id="tribar" class="omni" tabindex="0"><i class="fa fa-bars" aria-hidden="true"></i></div>
+  </header>
+  <article>
+    <div id="wrap">
+      <div id="content">
+        <section id="dashboard">
+          <div class="truss">
+            <form id="getter">
+              <fieldset>
+                <input type="text" name="param" value="" size="20" placeholder="variable"/>
+                <input type="text" name="value" value="" size="20" placeholder="value"/>
+                <input type="submit" value="GET" class="btn" />
+              </fieldset>
+            </form>
+            <form id="poster">
+              <fieldset>
+                <input type="text" name="payload" value="" size="47" placeholder="json"/>
+                <input type="submit" value="POST" class="btn" />
+              </fieldset>
+              <fieldset>
+                <output class="mono">response</output>
+              </fieldset>
+            </form>
+          </div>
+        </section>
+        <section id="sandbox">
+          <div class="grid">
+            <div class="box a">A</div>
+            <div class="box b">B</div>
+            <div class="box c">C</div>
+            <div class="box d">D</div>
+            <div class="box e">E</div>
+            <div class="box f">F</div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <ins id="dialog"></ins>
+    <aside id="palette"></aside>
+    <aside id="dossier"></aside>
+  </article>
+  <footer id="footer">
+    <nav>
+      <figure title="Global Good"></figure>
+      <cite title="No reproduction or distribution without written permission of Intellectual Ventures. &#13;COMPS is licensed under the Creative Commons &#13;Attribution-Noncommercial-ShareAlike 4.0 License.">Copyright &copy; 2017 Intellectual Ventures Property Holdings, LLC  All rights reserved.</cite>
+      <figure title="Institute for Disease Modeling"></figure>
+    </nav>
+    <div id="terminal"></div>
+  </footer>
+  <ins id="modal"></ins>
+  <ins id="notifier"></ins>
+</main>
+</body>
+</html>

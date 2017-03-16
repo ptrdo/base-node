@@ -1,0 +1,23 @@
+{
+  "name": "Grid",
+  "description": "CSS Grid Exploration",
+  "main": "index.html",
+  "authors": [
+    "Peter Sylwester <psylwester@intven.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "fontawesome#^4.7.0",
+    "jquery": "^3.1.1",
+    "lodash": "^4.17.4"
+  }
+}
