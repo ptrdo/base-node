@@ -99,6 +99,37 @@ var comps = window.comps || {};
       }
     };
 
+    var doPut = function(event) {
+
+      event.preventDefault();
+
+      var input = $("input[name=input]").val().trim();
+
+      if (!_.isEmpty(input)) {
+        $.ajax({
+          url: "./api",
+          type: "PUT",
+          data: JSON.stringify({input:input}),
+          success: function (data) {
+            var response = data;
+            console.log('success', response);
+            $("output").text(response);
+            comps.notifier.toast("A successful round-trip!", "success");
+          },
+          error: function (err) {
+            console.log('error', err);
+            $("output").text(err.message);
+            comps.notifier.toast("Sorry, something went wrong!", "error");
+          }
+        });
+
+      } else {
+
+        comps.notifier.toast("Sorry, but that argument seems wrong.", "warning");
+
+      }
+    };
+
 
     /**
      * PRIVATE UTILITIES
@@ -123,6 +154,7 @@ var comps = window.comps || {};
 
           $("form#getter").on("submit", doGet);
           $("form#poster").on("submit", doPost);
+          $("form#puter").on("submit", doPut);
 
         }, 0);
       },

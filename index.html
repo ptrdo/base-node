@@ -36,25 +36,6 @@
       display: block;
     }
 
-    .grid {
-      display: -ms-grid;
-      display: grid;
-      -ms-grid-columns: 1fr 1fr 200px;
-          grid-template-columns: 1fr 1fr 200px;
-      grid-gap: 20px;
-      background-color: #e4e1c0;
-      color: #444;
-      margin: 100px 60px 0 60px;
-    }
-
-    .grid .box {
-      background-color: orange;
-      color: #fff;
-      border-radius: 5px;
-      padding: 20px;
-      font-size: 2em;
-    }
-
     #content section#dashboard > .truss {
       padding: 80px 50px;
       zoom: 150%;
@@ -65,14 +46,27 @@
       margin-bottom: 10px;
     }
 
+    fieldset > span {
+      display: inline-block;
+      min-width: 50%;
+    }
+
     input[type=text] {
-      margin: 0 4px;
+      width: 100%;
+      margin: 0 -2px;
       padding: 10px;
       vertical-align: middle;
+      box-sizing: border-box;
+      border: 1px solid #c2c2b8;
+    }
+
+    fieldset > span.split input[type=text] {
+      width: 50%;
     }
 
     input[type=submit] {
       min-width: 5em;
+      margin: 0 -7px;
     }
 
     output {
@@ -119,30 +113,32 @@
           <div class="truss">
             <form id="getter">
               <fieldset>
-                <input type="text" name="param" value="" size="20" placeholder="variable"/>
-                <input type="text" name="value" value="" size="20" placeholder="value"/>
+                <span class="split">
+                  <input type="text" name="param" value="" placeholder="variable" title="a parameter's name here"/>
+                  <input type="text" name="value" value="" placeholder="value" title="a parameter's value here"/>
+                </span>
                 <input type="submit" value="GET" class="btn" />
               </fieldset>
             </form>
             <form id="poster">
               <fieldset>
-                <input type="text" name="payload" value="" size="47" placeholder="json"/>
+                <span>
+                  <input type="text" name="payload" value="" placeholder="json" title="well-formed JSON here"/>
+                </span>
                 <input type="submit" value="POST" class="btn" />
               </fieldset>
+            </form>
+            <form id="puter">
               <fieldset>
-                <output class="mono">response</output>
+                <span>
+                  <input type="text" name="input" value="" placeholder="numbers" title="a sequence of numbers here"/>
+                </span>
+                <input type="submit" value="PY" class="btn" />
               </fieldset>
             </form>
-          </div>
-        </section>
-        <section id="sandbox">
-          <div class="grid">
-            <div class="box a">A</div>
-            <div class="box b">B</div>
-            <div class="box c">C</div>
-            <div class="box d">D</div>
-            <div class="box e">E</div>
-            <div class="box f">F</div>
+            <fieldset>
+              <output class="mono">response</output>
+            </fieldset>
           </div>
         </section>
       </div>

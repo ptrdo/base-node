@@ -26,7 +26,7 @@ const mimeType = {
 
 const server = http.createServer(function(request, response) {
 
-  const parsedUrl = url.parse(request.url);
+  const parsedUrl = url.parse(request.url, true);
   let pathname = `.${parsedUrl.pathname}`;
 
   response.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -41,13 +41,11 @@ const server = http.createServer(function(request, response) {
 
       case "GET":
 
-        let parts = url.parse(request.url, true);
-        let query = parts.query;
+        let query = parsedUrl.query;
 
         response.write(JSON.stringify(query));
         response.statusCode = 200;
         response.end();
-        
         break;
 
       case "POST":
@@ -81,6 +79,13 @@ const server = http.createServer(function(request, response) {
             return response.end(`error: ${err.message}`);
           }
         });
+        break;
+
+      case "PUT":
+
+        response.statusCode = 200;
+        response.write("Python to sum-up.");
+        response.end();
         break;
     }
 
