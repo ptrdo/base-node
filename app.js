@@ -7,6 +7,41 @@ const hostname = '0.0.0.0';
 const port = 8082;
 const home = '/index.html';
 
+const pythonExecutable = "python"; // use path if environmental variable not set
+const pathToLocalScripts = 'py/';
+
+const isNumber = function(val) {
+  return /^-?\d+\.?\d*$/.test(val);
+};
+
+const uint8arrayToString = function(data){
+  return String.fromCharCode.apply(null, data);
+};
+
+const executePythonScript = function(name, input, callback) {
+  "use strict";
+  const spawn = require('child_process').spawn;
+  const scriptExecution = spawn(pythonExecutable, [pathToLocalScripts+name]);
+
+  // Handle normal output
+  scriptExecution.stdout.on('data', (data) => {
+    if (!!callback && callback instanceof Function) {
+      callback(uint8arrayToString(data));
+    } else {
+      console.log(uint8arrayToString(data));
+    }
+  });
+
+  // Write data (remember to send only strings or numbers, otherwise python wont understand)
+  let data
+      = isNumber(input) ? Number(input) : JSON.stringify(input);
+
+  scriptExecution.stdin.write(data);
+
+  // End data write
+  scriptExecution.stdin.end();
+};
+
 const mimeType = {
   '.ico': 'image/x-icon',
   '.html': 'text/html',
@@ -27,7 +62,10 @@ const mimeType = {
 const server = http.createServer(function(request, response) {
 
   const parsedUrl = url.parse(request.url, true);
+
   let pathname = `.${parsedUrl.pathname}`;
+  let query = parsedUrl.query;
+  let body = '';
 
   response.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   response.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -41,16 +79,12 @@ const server = http.createServer(function(request, response) {
 
       case "GET":
 
-        let query = parsedUrl.query;
-
         response.write(JSON.stringify(query));
         response.statusCode = 200;
         response.end();
         break;
 
       case "POST":
-
-        let body = '';
 
         // Get the data as utf8 strings.
         // If an encoding is not set, Buffer objects will be received.
@@ -83,9 +117,38 @@ const server = http.createServer(function(request, response) {
 
       case "PUT":
 
-        response.statusCode = 200;
-        response.write("Python to sum-up.");
-        response.end();
+        // Get the data as utf8 strings.
+        // If an encoding is not set, Buffer objects will be received.
+        request.setEncoding('utf8');
+
+        // Readable streams emit 'data' events once a listener is added
+        request.on('data', (chunk) => {
+          body += chunk;
+        });
+
+        // the end event indicates that the entire body has been received
+        request.on('end', () => {
+          try {
+
+            // testing data as json
+            const data = JSON.parse(body);
+            const script = data.script;
+            const input = data.input;
+
+            executePythonScript(script, input, function(output){
+              "use strict";
+              response.statusCode = 200;
+              response.write(output);
+              response.end();
+            });
+
+          } catch (err) {
+
+            // bad json!
+            response.statusCode = 400;
+            return response.end(`error: ${err.message}`);
+          }
+        });
         break;
     }
 

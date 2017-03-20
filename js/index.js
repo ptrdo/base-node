@@ -3,27 +3,28 @@ var comps = window.comps || {};
 (function () {
 
   /**
-   * Grid
-   * Script Context, Title or Description
+   * Base Node
+   * Demonstration of Common Service Calls
    *
    * @author psylwester(at)intven(dot)com
-   * @version 1.00, 2017/03/09
-   * @requires (framework)
+   * @version 1.00, 2017/03/18
+   * @requires jQuery, Lodash
    *
    */
 
   comps.index = function () {
 
     /**
-     * PRIVATE MEMBERS
-     *
-     * @param  { String }  private_var    example only
-     * @see
-     *
+     * PRIVATE UTILITIES
      */
 
-    var private_var;
-
+    /**
+     * isJSON simple test of supposed JSON string
+     *
+     * @private
+     * @param {String} str (required)
+     * @returns {Boolean} true when parseable
+     */
     var isJSON = function (str) {
       try {
         JSON.parse(str);
@@ -33,6 +34,42 @@ var comps = window.comps || {};
       return true;
     };
 
+
+    /**
+     * parseNumericInput formulates raw input into well-formed array of numbers
+     *
+     * @private
+     * @param {String} str (required) raw input[type=text].text();
+     * @return {Array} of found numbers or [] when none
+     */
+    var parseNumericInputToList = function (str) {
+
+      var result = [],
+          proposed = str.split(/\s*,\s*|\s+/);
+
+      console.log("proposed", proposed);
+
+      proposed.forEach(function(val){
+        if (/^-?\d+\.?\d*$/.test(val)) {
+          result.push(Number(val));
+        }
+      });
+
+      return result;
+    };
+
+
+    /**
+     * PRIVATE HANDLERS
+     */
+
+    /**
+     * doPost handles POST submission of a <form>
+     *
+     * @private
+     * @param {Event} event
+     * @returns asynchronous Request Response or Error
+     */
     var doPost = function (event) {
 
       event.preventDefault();
@@ -65,6 +102,13 @@ var comps = window.comps || {};
      }
     };
 
+    /**
+     * doGet handles GET submission of a <form>
+     *
+     * @private
+     * @param {Event} event
+     * @returns asynchronous Request Response or Error
+     */
     var doGet = function(event) {
 
       event.preventDefault();
@@ -99,17 +143,29 @@ var comps = window.comps || {};
       }
     };
 
+    /**
+     * doPut handles PUT submission of a <form>
+     * NOTE: Currently utilized for demonstration of pseudo-POST to Python
+     *
+     * @private
+     * @param {Event} event
+     * @returns asynchronous Request Response or Error
+     */
     var doPut = function(event) {
 
       event.preventDefault();
 
+      var script = $("input[name=script]").val().trim();
       var input = $("input[name=input]").val().trim();
+      var list = parseNumericInputToList(input);
 
-      if (!_.isEmpty(input)) {
+      console.log(list);
+
+      if (!_.isEmpty(script) && !_.isEmpty(list)) {
         $.ajax({
           url: "./api",
           type: "PUT",
-          data: JSON.stringify({input:input}),
+          data: JSON.stringify({script:script,input:list}),
           success: function (data) {
             var response = data;
             console.log('success', response);
@@ -125,23 +181,14 @@ var comps = window.comps || {};
 
       } else {
 
-        comps.notifier.toast("Sorry, but that argument seems wrong.", "warning");
+        comps.notifier.toast("Sorry, but those inputs seems wrong.", "warning");
 
       }
     };
 
 
     /**
-     * PRIVATE UTILITIES
-     *
-     */
-
-
-    /**
-     * PUBLIC MEMBERS
-     *
-     * @param
-     *
+     * PUBLIC MEMBERS (API)
      */
 
     return {
@@ -156,17 +203,29 @@ var comps = window.comps || {};
           $("form#poster").on("submit", doPost);
           $("form#puter").on("submit", doPut);
 
+          $("form > fieldset > a").on("click", function(event) {
+            event.preventDefault();
+            var form = $(event.target).closest("form").get(0);
+            console.log(form, form.id);
+            switch(form.id) {
+              case "getter":
+                $(form).find("input[type=text]:first").val("foo");
+                $(form).find("input[type=text]:last").val("bar");
+                break;
+              case "poster":
+                $(form).find("input[type=text]:first").val('{"foo":"bar"}');
+                break;
+              case "puter":
+                $(form).find("input[type=text]:first").val("sum.py");
+                $(form).find("input[type=text]:last")
+                  .val("1, 2, 0.1415926")
+                  .attr("pattern", "(-?\\d+\\.?\\d*,?\\s*)+")
+                  .attr("title", "a sequence of of numbers separated by spaces and/or commas")
+                break;
+            }
+          });
+
         }, 0);
-      },
-
-      public_setter: function (val) {
-
-        private_var = val;
-      },
-
-      public_getter: function () {
-
-        return private_var;
       }
     };
   }();
@@ -179,19 +238,15 @@ var comps = window.comps || {};
   try {
 
     if (window.hasOwnProperty("jQuery")) {
-
       $(document).ready(comps.index.init);
 
     } else if (window.hasOwnProperty("addEventListener")) {
-
       window.addEventListener("load", comps.index.init, false);
 
     } else if (window.hasOwnProperty("attachEvent")) {
-
       window.attachEvent("onload", comps.index.init);
 
     } else {
-
       window.comps.index.init();
     }
   }

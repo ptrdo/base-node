@@ -64,6 +64,20 @@
       width: 50%;
     }
 
+    fieldset > a {
+      padding: 0 1.5em;
+      font-size: smaller;
+    }
+
+    fieldset > a:link {
+      color: silver;
+    }
+
+    fieldset > a:hover,
+    fieldset > a:active {
+      color: #0072a2;
+    }
+
     input[type=submit] {
       min-width: 5em;
       margin: 0 -7px;
@@ -114,26 +128,30 @@
             <form id="getter">
               <fieldset>
                 <span class="split">
-                  <input type="text" name="param" value="" placeholder="variable" title="a parameter's name here"/>
-                  <input type="text" name="value" value="" placeholder="value" title="a parameter's value here"/>
+                  <input type="text" name="param" value="" placeholder="variable" pattern="[a-zA-Z0-9_]+" title="a parameter's name here (alphanumeric characters and underscore allowed)" />
+                  <input type="text" name="value" value="" placeholder="value" pattern="[^&,;]+" title="a parameter's value here (non-zero length, without ampersand, comma, or semi-colon)"/>
                 </span>
                 <input type="submit" value="GET" class="btn" />
+                <a href="#null">example</a>
               </fieldset>
             </form>
             <form id="poster">
               <fieldset>
                 <span>
-                  <input type="text" name="payload" value="" placeholder="json" title="well-formed JSON here"/>
+                  <input type="text" name="payload" value="" placeholder="json" pattern="^\{.+\}$" title="well-formed JSON here"/>
                 </span>
                 <input type="submit" value="POST" class="btn" />
+                <a href="#null">example</a>
               </fieldset>
             </form>
             <form id="puter">
               <fieldset>
-                <span>
-                  <input type="text" name="input" value="" placeholder="numbers" title="a sequence of numbers here"/>
+                <span class="split">
+                  <input type="text" name="script" value="" placeholder="script" title="a Python script's name here (with .py extension)" pattern="(.+\.)py|PY|Py|pY$"/>
+                  <input type="text" name="input" value="" placeholder="input" title="the script's input here"/>
                 </span>
                 <input type="submit" value="PY" class="btn" />
+                <a href="#null">example</a>
               </fieldset>
             </form>
             <fieldset>
